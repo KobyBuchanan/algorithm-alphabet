@@ -13,6 +13,19 @@ class TestQuickSort(unittest.TestCase):
         self.assertEqual(self.arr, self.target_arr, "Arrays do not match")
 
 
+#Test nQueens
+class TestnQueens(unittest.TestCase):
+    n = 4
+    def test_board(self):
+        target_board = [[".",".",".","."],
+                        [".",".",".","."],
+                        [".",".",".","."],
+                        [".",".",".","."]]
+        
+        board = algorithms.nQueen(self.n)
+        self.assertEqual(board, target_board, "Arrays do not match")
+
+
 if __name__ == '__main__':
     unittest.main()
 
