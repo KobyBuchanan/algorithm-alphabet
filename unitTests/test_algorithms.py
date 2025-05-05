@@ -1,6 +1,8 @@
 import unittest
 import algorithms
 
+#To run tests
+#./test.sh
 
 #Test quick sort
 class TestQuickSort(unittest.TestCase):
@@ -15,15 +17,17 @@ class TestQuickSort(unittest.TestCase):
 
 #Test nQueens
 class TestnQueens(unittest.TestCase):
-    n = 4
-    def test_board(self):
-        target_board = [[".",".",".","."],
-                        [".",".",".","."],
-                        [".",".",".","."],
-                        [".",".",".","."]]
-        
-        board = algorithms.nQueen(self.n)
-        self.assertEqual(board, target_board, "Arrays do not match")
+    def testKnownSolutions(self):
+        n = 4
+        target_solution = [[2,4,1,3],[3,1,4,2]]
+        solution = algorithms.nQueen(n)
+        self.assertEqual(solution,target_solution,"Answers do not match")
+
+    def testKnownNoSolutions(self):
+        n = 2
+        target_solution = "There are no solutions for this value of n"
+        solution = algorithms.nQueen(n)
+        self.assertEqual(solution,target_solution,"Answers do not match")
 
 
 if __name__ == '__main__':
