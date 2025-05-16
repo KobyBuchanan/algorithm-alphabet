@@ -9,13 +9,12 @@ def heuristic(next, dest):
 def a_star_search(muddy_grid, src, dest):
     queue = PriorityQueue()
     queue.push(0, src)
-    predecessors = {
-        src: None
-    }
-    costs = {
-        src: 0
-    }
+    predecessors = {src: None}
+    costs = {src: 0}
     visited = set()
+
+    #Barriers enabled check
+    barriers = muddy_grid.allow_barriers
 
     while not queue.empty():
         current = queue.pop()
@@ -24,13 +23,19 @@ def a_star_search(muddy_grid, src, dest):
         if current in visited:
             continue
         visited.add(current)
+
         for next in muddy_grid.neighbors(current):
-            next_cost_so_far = costs[current] + next.cost()
+            if next.cost(barriers_enabled = barriers) >= 999:
+                continue
+            next_cost_so_far = costs[current] + next.cost(barriers_enabled = barriers)
             if next not in costs or next_cost_so_far < costs[next]:
                 costs[next] = next_cost_so_far
                 priority = next_cost_so_far + heuristic(next, dest)
                 queue.push(priority, next)
                 predecessors[next] = current
+
+    if dest not in predecessors:
+        return "No path exists from chosen source to destination"
 
     path = []
     pred = dest
@@ -68,12 +73,18 @@ class Tile:
         self.x = x
         self.y = y
 
-    def cost(self):
+    def cost(self, barriers_enabled = False):
         random.seed(hash(self))
-        bucket = random.randint(1, 2)
-        cost = random.randint(1, 5)
-        if bucket == 2:
+        bucket = random.randint(1, 3)
+        if bucket == 1:
+            cost = random.randint(1, 5)
+        elif bucket == 2:
             cost = random.randint(15, 20)
+        else:
+            if barriers_enabled:
+                cost = 999
+            else:
+                cost = random.randint(15, 20)
         return cost
 
     def __eq__(self, other):
@@ -92,9 +103,10 @@ class Tile:
 
 
 class TrafficGrid:
-    def __init__(self, width, height):
+    def __init__(self, width, height, allow_barriers = False):
         self.width = width
         self.height = height
+        self.allow_barriers = allow_barriers
 
     def in_bounds(self, tile):
         return 0 <= tile.x < self.width and 0 <= tile.y < self.height
@@ -114,10 +126,6 @@ class TrafficGrid:
         for y in range(self.height - 1, -1, -1):
             for x in range(self.width):
                 t = Tile(x, y)
-                s += f"[{t.cost():02d}]"
+                s += f"[{t.cost(barriers_enabled = self.allow_barriers):02d}]"
             s += "\n"
         return s
-
-
-tg = TrafficGrid(4,4)
-print(tg)

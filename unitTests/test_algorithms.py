@@ -30,6 +30,38 @@ class TestnQueens(unittest.TestCase):
         self.assertEqual(solution,target_solution,"Answers do not match")
 
 
+class Test_aStar(unittest.TestCase):
+    def testGrid(self):
+        target_grid_string = "[05][19][05][18]\n[01][19][15][04]\n[05][02][15][20]\n[18][20][15][16]\n"
+        width,height = 4,4
+        grid = algorithms.TrafficGrid(width,height)
+        self.assertEqual(repr(grid),target_grid_string,"Answers do not match")
+
+    def testGridBarriers(self):
+        target_grid_string = "[05][19][05][999]\n[01][999][999][04]\n[05][02][999][20]\n[18][20][15][999]\n"
+        width,height = 4,4
+        grid = algorithms.TrafficGrid(width,height,allow_barriers=True)
+        self.assertEqual(repr(grid),target_grid_string,"Answers do not match")
+    
+    def testSearchNoBarriers(self):
+        target_path = [(0,0),(0,1),(1,1),(2,1),(2,2)]
+        width,height = 3,3
+        src = algorithms.Tile(0,0)
+        dest = algorithms.Tile(2,2)
+        grid = algorithms.TrafficGrid(width,height)
+        path = algorithms.a_star_search(grid, src, dest)
+        self.assertEqual(path,target_path,"Answers do not match")
+
+    def testSearchBarriers(self):
+        target_path = "No path exists from chosen source to destination"
+        width,height = 3,3
+        src = algorithms.Tile(0,0)
+        dest = algorithms.Tile(2,2)
+        grid = algorithms.TrafficGrid(width,height,allow_barriers=True)
+        path = algorithms.a_star_search(grid, src, dest)
+        self.assertEqual(path,target_path,"Answers do not match")
+
+
 if __name__ == '__main__':
     unittest.main()
 
