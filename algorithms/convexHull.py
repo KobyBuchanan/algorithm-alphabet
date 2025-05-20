@@ -37,4 +37,4 @@ def convex_hull(n_points):
         upper.append(point)
 
     full_hull = lower[:-1] + upper[:-1]
-    return points, sorted(full_hull)
+    return points, full_hull

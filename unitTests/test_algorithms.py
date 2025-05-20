@@ -76,7 +76,7 @@ class TestConvexHull(unittest.TestCase):
         target_hull = [(-4, -3), (-2, -5), (-2, 3),(2, 2), (5, -5)]
         points,hull = algorithms.convex_hull(n_points)
         self.assertEqual(points,target_points,"Answers do not match")
-        self.assertEqual(hull,target_hull,"Answers do not match")
+        self.assertEqual(sorted(hull),target_hull,"Answers do not match")
 
 if __name__ == '__main__':
     unittest.main()
