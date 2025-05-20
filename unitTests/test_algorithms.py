@@ -61,6 +61,22 @@ class Test_aStar(unittest.TestCase):
         path = algorithms.a_star_search(grid, src, dest)
         self.assertEqual(path,target_path,"Answers do not match")
 
+    
+class TestConvexHull(unittest.TestCase):  
+
+    def testNoHull(self):
+     n_points = 2
+     target_hull = "A Convex Polygon must have at least 3 points"
+     _,hull = algorithms.convex_hull(n_points)
+     self.assertEqual(hull,target_hull,"Answers do not match")
+    
+    def testConvexHull(self):
+        n_points = 8
+        target_points = [(-4, -3), (-2, -5), (-2, 0), (-2, 1), (-2, 3), (1, -3), (2, 2), (5, -5)]
+        target_hull = [(-4, -3), (-2, -5), (-2, 3),(2, 2), (5, -5)]
+        points,hull = algorithms.convex_hull(n_points)
+        self.assertEqual(points,target_points,"Answers do not match")
+        self.assertEqual(hull,target_hull,"Answers do not match")
 
 if __name__ == '__main__':
     unittest.main()
