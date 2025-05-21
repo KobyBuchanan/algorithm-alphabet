@@ -1,35 +1,15 @@
-import streamlit as st
-import algorithms
-import matplotlib.pyplot as plt
+from flask import Flask, render_template, url_for
 
-#Title
-st.title("Algorithm Alphabet")
+app = Flask(__name__)
 
-ALGORITHM = st.selectbox("Choose an algorithm", 
-                          ["A* Search", "Convex Hull", "N Queens","Quick Sort"]
-                          )
-st.write(f"You selected: {ALGORITHM}")
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-if ALGORITHM == "Convex Hull":
-    num_points = st.number_input("Pick Number of points", 0, 10)
+@app.route('/alphabet')
+def alphabet():
+    letters = [chr(c) for c in range(ord("A"),ord('Z') + 1)]
+    return render_template('alphabet.html', letters = letters)
 
-
-if st.button("Run Algorithm"):
-    points, hull = algorithms.convex_hull(num_points)
-    if type(hull) == str:
-        st.write(hull)
-    else:
-        #plotting
-        fig, ax = plt.subplots()
-        x,y = zip(*points)
-        ax.scatter(x,y,label="Points",color='blue')
-        #Hull plotting
-        hull_points = hull + [hull[0]]
-        hx,hy = zip(*hull_points)
-        ax.plot(hx,hy,'r-',label='Convex Hull')
-        ax.scatter(*zip(*hull), color='red')
-        ax.axhline(0, color='gray', lw=0.5)
-        ax.axvline(0, color='gray', lw=0.5)
-        ax.set_aspect('equal')
-        ax.legend()
-        st.pyplot(fig)
+if __name__ == '__main__':
+    app.run(debug=True)
