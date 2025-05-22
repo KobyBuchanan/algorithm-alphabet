@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{ algo_name }}</h2>
+  <p>{{ description }}</p>
+
+  <!-- Optional: Embed code, canvas, controls -->
+  <div id="demo-container">
+    <!-- You can dynamically load JS or embed HTML for the demo -->
+    <p>Algorithm demo would go here.</p>
+    <img src="data:image/png;base64,{{ image_data }}" alt="Visualization" />
+  </div>
+
+  <a href="/alphabet">← Back to alphabet</a>
+{% endblock %}

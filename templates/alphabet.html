@@ -2,11 +2,38 @@
 
 {% block content %}
 <h2>Select a Letter</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    {% for letter in letters %}
-        <a href="/{{ letter }}" style="padding: 6px 12px; border: 1px solid #ccc; text-decoration: none;">
-            {{ letter }}
-        </a>
-    {% endfor %}
+
+<!-- Letter buttons -->
+<div class="alphabet-grid">
+  {% for letter in letters %}
+    <button onclick="showAlgorithms('{{ letter }}')">{{ letter }}</button>
+  {% endfor %}
 </div>
+
+<!-- Algorithm list placeholder -->
+<div id="algorithm-list" style="margin-top: 20px;">
+  <h3>Algorithms will appear here</h3>
+</div>
+
+<script>
+// Dictionary passed from Flask
+const algo_data = JSON.parse('{{ data | tojson | safe }}');
+
+function showAlgorithms(letter) {
+  const container = document.getElementById("algorithm-list");
+  const algorithms = algo_data[letter] || [];
+
+  if (algorithms.length === 0) {
+    container.innerHTML = `<h3>No algorithms under ${letter}</h3>`;
+    return;
+  }
+
+  let html = `<h3>Algorithms for ${letter}</h3><ul>`;
+  for (const [key, meta] of Object.entries(algorithms)) {
+    html += `<li><a href="/${letter}/${key}">${meta.title}</a></li>`;
+  }
+  html += `</ul>`;
+  container.innerHTML = html;
+}
+</script>
 {% endblock %}

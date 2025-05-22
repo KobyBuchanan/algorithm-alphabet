@@ -1,6 +1,7 @@
 import random
 
 
+
 def generate_random_points(n_points):
     points = set()
     random.seed(n_points)

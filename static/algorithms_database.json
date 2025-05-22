@@ -1,0 +1,16 @@
+
+
+{
+    "C" : {
+        "convex_hull" : {
+            "title": "Convex Hull",
+            "description": "A geometric algorithm to find the convex evelope of a point set.",
+            "render": "render_convex_hull"
+        },
+
+        "Cool_Algo_here": {
+            "title": "TO BE DETERMINED",
+            "description": "lorem ipsum"
+        }
+    }
+}
